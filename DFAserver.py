@@ -6,13 +6,12 @@ HOST_NAME = '127.0.0.1'
 PORT_NUMBER = 1234  # Maybe set this to 1234
 
 # Stores the path to DFAServer working directory
-pathToApp = "C:\\Users\\Anders Fredriksen\\Desktop\\Schuul\\Auto2\\Project_1"
+pathToApp = "C:\\Users\\Marianne Pettersen\\Desktop\\auto\\DFA's"
 
 # Read the content of the template file
 f = open(pathToApp + "\\Templates\\chair_temp.dfa", "r")
 data = f.read()
-#print("data from template:", data)
-
+#default values
 leg_length = 0
 leg_side = 0
 seat_length = 0
@@ -30,12 +29,12 @@ data = data.replace("<PARAM4>", str(seat_width))
 data = data.replace("<PARAM5>", str(height_backplate))
 
 
-f = open(pathToApp + "\\chair_done.dfa", "w")
+f = open(pathToApp + "\\chair_finished.dfa", "w")
 f.write(data)
 f.close()
 
 
-class MyHandler(BaseHTTPRequestHandler):
+class MyHandler(BaseHTTPRequestHandler): # the class to access the server, render on the site and send input back.
 
     def do_HEAD(s):
         s.send_response(200)
@@ -92,14 +91,13 @@ class MyHandler(BaseHTTPRequestHandler):
                 '<br><br><input type="submit" value="Submit"></form><p>If you click the "Submit" button, your order will be sent.</p></body></html>',
                 "utf-8"))
 
-    def do_POST(s):
+    def do_POST(s): # the method to save the input from the user.
         global leg_length, leg_side, seat_length, seat_width, height_backplate, cussion_color, chair_color, i, productOK
 
         s.send_response(200)
         s.send_header("Content-type", "text/html")
         s.end_headers()
 
-        # Check what is the path
         path = s.path
         print("Path: ", path)
         if path.find("/"):
@@ -124,12 +122,12 @@ class MyHandler(BaseHTTPRequestHandler):
                 if param_line.find("PARAM5") != -1:
                     param_line = param_line.replace("PARAM5 ", "")
                     height_backplate = int(param_line)
-                '''if param_line.find("PARAM6") != -1:
+                if param_line.find("PARAM6") != -1:
                     param_line = param_line.replace("PARAM6 ", "")
                     chair_color = int(param_line)
                 if param_line.find("PARAM7") != -1:
                     param_line = param_line.replace("PARAM7 ", "")
-                    cussion_color = int(param_line)'''
+                    cussion_color = int(param_line)
 
         if path.find("/product") != -1:
             print("Inside of /product path")
@@ -137,7 +135,7 @@ class MyHandler(BaseHTTPRequestHandler):
             post_body = s.rfile.read(content_len)
 
             # process string of parameters:
-            # Example: leg_length=70&leg_side=5&seat_length=50&seat_width=60&height_backplate=70
+            # Example: leg_length=70&leg_side=5&seat_length=50&seat_width=60&height_backplate=70&cussion_color=OBSCURE_DULL_TEAL&chair_color=BLACK
             body = post_body.decode()
             print(body)
             pairs = body.split("&")
@@ -170,9 +168,9 @@ class MyHandler(BaseHTTPRequestHandler):
 
 
             # Parameters requested by customer
-            s.updateDesign(leg_length, leg_side, seat_length, seat_width, height_backplate, cussion_color, chair_color) #cussion_color, chair_color
+            s.updateDesign(leg_length, leg_side, seat_length, seat_width, height_backplate, cussion_color, chair_color)
 
-            # Calls for manuf. constraints (10 constraints in our case)
+            # Calls for manuf. constraints (10 constraints in our case). See if the product can be made.
             productOK = 1
 
             s.getConstrain("leg_length_max", "<PARAM1max>")
@@ -186,14 +184,12 @@ class MyHandler(BaseHTTPRequestHandler):
             s.getConstrain("height_backplate_max", "<PARAM5max>")
             s.getConstrain("height_backplate_min", "<PARAM5min>")
 
-    def updateDesign(self, param1, param2, param3, param4, param5, param6, param7):
-        # param1min, param2min, param3min, param4min, param5min, param1max, param2max, param3max, param4max, param5max
-        # param6, param7
+    def updateDesign(self, param1, param2, param3, param4, param5, param6, param7):# the method to update the design to the dfa-file.
         # Read the content of the template file
         global pathToApp
         f = open(pathToApp + "\\Templates\\chair_temp.dfa", "r")
         data = f.read()
-
+        # data being replaced with the placeholders.
         data = data.replace("<PARAM1>", str(param1))
         data = data.replace("<PARAM2>", str(param2))
         data = data.replace("<PARAM3>", str(param3))
@@ -203,37 +199,22 @@ class MyHandler(BaseHTTPRequestHandler):
         data = data.replace("<PARAM7>", str(param7))
         data = data.replace("chair_temp", "chair_finished")
 
-        '''data = data.replace("<PARAM1min>", str(param1min))
-        data = data.replace("<PARAM2min>", str(param2min))
-        data = data.replace("<PARAM3min>", str(param3min))
-        data = data.replace("<PARAM4min>", str(param4min))
-        data = data.replace("<PARAM5min>", str(param5min))
-        data = data.replace("<PARAM1max>", str(param1max))
-        data = data.replace("<PARAM2max>", str(param2max))
-        data = data.replace("<PARAM3max>", str(param3max))
-        data = data.replace("<PARAM4max>", str(param4max))
-        data = data.replace("<PARAM5max>", str(param5max))'''
-
 
         f = open(pathToApp + "\\chair_finished.dfa", "w")
         f.write(data)
         f.close()
 
-    def getConstrain(self, constrain, paramTag):
+    def getConstrain(self, constrain, paramTag): # the method that gets the max-min boundaries from the fuseki-server, and checks them against the input from the user
         global leg_length, leg_side, seat_length, seat_width, height_backplate, productOK
         URL = "http://127.0.0.1:3030/kbe/query"
 
-        # defining a query params
+        # making a query for recieving data from fuseki-server
         PARAMS = {
             'query': 'PREFIX kbe:<http://kbe.openode.io/table-kbe.owl#> SELECT ?data WHERE {?inst kbe:' + constrain + ' ?data.}'}
 
         # sending get request and saving the response as response object
         r = requests.get(url=URL, params=PARAMS)
-
-        # Checking the result
-        #print("Result:", r.text)
         data = r.json()
-        #print("JSON:", data)
 
         # Checking the value of the parameter
         print("Data:", data['results']['bindings'][0]['data']['value'])
@@ -241,13 +222,8 @@ class MyHandler(BaseHTTPRequestHandler):
         # Update constrain value in design template
         dataToWrite = data['results']['bindings'][0]['data']['value']
         f = open(pathToApp + "\\Templates\\chair_temp.dfa", "r")
-        da3ta = f.read()
+        data = f.read()
 
-        #data = data.replace(paramTag, str(dataToWrite))
-
-
-        #f = open(pathToApp + "\\chair_finished.dfa", "w")
-        #f.write(data)
         f.close()
 
         # Check for validity:
@@ -283,7 +259,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 productOK = 0
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': # main method to start the server.
     server_class = HTTPServer
     httpd = server_class((HOST_NAME, PORT_NUMBER), MyHandler)
 

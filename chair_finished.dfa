@@ -2,36 +2,28 @@
 DefClass: chair_finished (ug_base_part);
 
     (number parameter) leg_length: 80; #70
-    (number parameter) leg_length_max: <PARAM1max>; #70
-    (number parameter) leg_length_min: <PARAM1min>; #70
-    (number parameter) leg_side: 8; #5
-    (number parameter) leg_side_max: <PARAM2max>; #5
-    (number parameter) leg_side_min: <PARAM2min>; #5
-    (number parameter) seat_length: 80; #50
-    (number parameter) seat_length_max: <PARAM3max>; #50
-    (number parameter) seat_length_min: <PARAM3min>; #50
-    (number parameter) seat_width: 80; #50
-    (number parameter) seat_width_max: <PARAM4max>; #50
-    (number parameter) seat_width_min: <PARAM4min>; #50
-    (number parameter) seat_thickness: 5;
-    (number parameter) cussion_length: seat_length:+5; 
-    (number parameter) cussion_width: seat_width:+5; 
+    (number parameter) leg_side: 7; #5
+    (number parameter) seat_length: 70; #50
+    (number parameter) seat_width: 70; #50
+    (number parameter) seat_thickness: 7;
+    (number parameter) cussion_length: seat_length:+10; 
+    (number parameter) cussion_width: seat_width:; 
     (number parameter) cussion_thickness: 5;
     (number parameter) leg_stick_diam: leg_side:/2; 
     (number parameter) height_backplate: 80; #70
-    (number parameter) height_backplate_max: <PARAM5max>; #70
-    (number parameter) height_backplate_min: <PARAM5min>; #70
     (number parameter) length_backplate: seat_length:; #50
-    (number parameter) back_thickness: 5;
+    (number parameter) back_thickness: 7;
     (number parameter) back_curve_thickness: 2;
-    (number parameter) height_backsticks: height_backplate:-30;
-    (color parameter) color_chair: LIGHT_DULL_CYAN;
-    (color parameter) color_cussion: OBSCURE_DULL_CYAN;
+    (number parameter) height_backsticks: height_backplate:-5-height_backplate:+50;
+    (Canonical Name Parameter Modifiable) color_cussion: LIGHT_DULL_CYAN;
+    (Canonical Name Parameter Modifiable) color_chair: OBSCURE_DULL_CYAN;
 
-    #Length går i x-retning
-    #Width går i y-retning
-    #Height går i z-retning
+   
+    #Length (x)
+    #Width (y)
+    #Height (z)
 	
+
 
 (child) seat: 
     {
@@ -41,7 +33,6 @@ DefClass: chair_finished (ug_base_part);
         height, seat_thickness:;
 	Origin, Point(0,0,0);
 	Direction, Vector(0,0,1);
-        color, 3;
     };
 
 (child) cussion: 
@@ -50,27 +41,9 @@ DefClass: chair_finished (ug_base_part);
         length, cussion_length:;
         width, cussion_width:;
         height, cussion_thickness:;
-	Origin, Point(-(cussion_length:-seat_length:)/2,leg_side:,seat_thickness:);
-	Direction, Vector(0,0,1);
-	Operation, Unite;
-	Target, {seat:};
-	Color, 3;
-	
+	Origin, Point(-(cussion_length:-seat_length:)/2,back_thickness:,seat_thickness:);
+	Direction, Vector(0,0,1);	
     };
-
-(child) cussion_part:
-    {
-	class, ug_block;
-	length, seat_length:-(2*leg_side:);
-	width, leg_side:;
-	height, cussion_thickness:;
-	Origin, Point(leg_side:,0,leg_side:);
-	Direction, Vector(0,0,1);
-	Operation, Unite;
-	Target, {cussion:}
-	Color, 3;
-    };
-
 
 (child) foot1: 
     {
@@ -163,10 +136,11 @@ DefClass: chair_finished (ug_base_part);
         class, ug_block;
         length, back_thickness:;
         width, back_thickness:;
-        height, height_backplate:;
-	Origin, Point(0,0,leg_side:);
+        height, height_backplate:+5;
+	Origin, Point(0,0,0);
 	Direction, Vector(0,0,1);
-	
+	Operation, Unite;
+	Target, {seat:}	
     };
 
 (child) back_stick2: 
@@ -174,18 +148,21 @@ DefClass: chair_finished (ug_base_part);
         class, ug_block;
         length, back_thickness:;
         width, back_thickness:;
-        height, height_backplate:;
-	Origin, Point(seat_length:-leg_side:,0,leg_side:);
+        height, height_backplate:+5;
+	Origin, Point(seat_length:-back_thickness:,0,0);
 	Direction, Vector(0,0,1);
+	Operation, Unite;
+	Target, {seat:}	
+
     };
 
 (child) back_curve1:
     {
 	class, ug_block;
-	length, length_backplate:-5;
+	length, seat_length:-back_thickness:;
 	width, back_curve_thickness:;
 	height, back_thickness:;
-	Origin, Point(back_thickness:/2,back_thickness:/2-1,height_backplate:-5);
+	Origin, Point(back_thickness:/2-2,back_thickness:/2-1,height_backplate:-5);
 	Direction, Vector(1,0,0);
 	Operation, Unite;
 	Target, {back_stick1:, back_stick2:};
@@ -194,10 +171,10 @@ DefClass: chair_finished (ug_base_part);
 (child) back_curve2:
     {
 	class, ug_block;
-	length, length_backplate:-5;
+	length, seat_length:-back_thickness:;
 	width, back_curve_thickness:;
 	height, back_thickness:;
-	Origin, Point(back_thickness:/2,back_thickness:/2-1,height_backplate:-50);
+	Origin, Point(back_thickness:/2-2,back_thickness:/2-1,height_backplate:-50);
 	Direction, Vector(1,0,0);
 	Operation, Unite;
 	Target, {back_stick1:, back_stick2:};
@@ -235,22 +212,23 @@ DefClass: chair_finished (ug_base_part);
 	Operation, Unite;
 	Target, {back_curve1:,back_curve2:}; 
     };
-(Child) chair_colored:
+
+(Child) bottom_colored:
     {
  	 Class, ug_body;
- 	 Feature, {seat:,foot1:,foot2:,foot3:,foot4:,stick1:,stick2:,stick3:,back_stick1:,back_stick2:,back_curve1:,back_curve2:,vertical_backstick1:,vertical_backstick2:,vertical_backstick3:};
+ 	 Feature, {seat:};
  	 Layer, 1;
  	 color, ug_askClosestColor(color_chair:);
     };
 
 (Child) cussion_colored:
     {
- 	 Class, ug_body;
- 	 Feature, {cussion:, cussion_part:};
+	 Class, ug_body;
+	 Feature, {cussion:};
  	 Layer, 1;
  	 color, ug_askClosestColor(color_cussion:);
     };
-
+ 
 
 
 

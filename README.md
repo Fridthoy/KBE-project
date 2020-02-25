@@ -5,7 +5,9 @@ a interface to be accessed on the web. Both customers and engnieers could input 
 This would then be send to the server that would update a Knowledge Fusion template and update it in Siemens NX. The goal of the project
 was to automate the whole process, and incorporates a number of different systems. 
 
-![alt text](https://github.com/anderf2706/Knowledge-based_engineering_project/blob/master/Merknad%202020-02-25%20131626.png)
+
+**chair render**
+![alt text](https://github.com/anderf2706/Knowledge-based_engineering_project/blob/master/model1.png)
 
 
 ## Getting Started

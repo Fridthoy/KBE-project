@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://kbe.openode.io/table-kbe.owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Ontology rdf:about="http://kbe.openode.io/table-kbe.owl"/>
+  <owl:Class rdf:about="http://kbe.openode.io/table-kbe.owl#LegCutter">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://kbe.openode.io/table-kbe.owl#Cutter"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://kbe.openode.io/table-kbe.owl#Cutter">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://kbe.openode.io/table-kbe.owl#Equipment"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://kbe.openode.io/table-kbe.owl#TopCutter">
+    <rdfs:subClassOf rdf:resource="http://kbe.openode.io/table-kbe.owl#Cutter"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://kbe.openode.io/table-kbe.owl#Equipment">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMaxWidthLeg">
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#LegCutter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMaxLengthTop">
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#TopCutter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMinWidthTop">
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#TopCutter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMinHeightLeg">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#LegCutter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMaxHeightTop">
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#TopCutter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMinWidthLeg">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#LegCutter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMaxHeightLeg">
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#LegCutter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMinHeightTop">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#TopCutter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMaxWidthTop">
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#TopCutter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <rdf:Property rdf:about="http://kbe.openode.io/table-kbe.owl#hasMinLengthTop">
+    <rdfs:domain rdf:resource="http://kbe.openode.io/table-kbe.owl#TopCutter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Property>
+  <LegCutter rdf:about="http://kbe.openode.io/table-kbe.owl#legCutter_1">
+    <hasMaxHeightLeg rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >70</hasMaxHeightLeg>
+    <hasMinHeightLeg rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >10</hasMinHeightLeg>
+    <hasMaxWidthLeg rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >10</hasMaxWidthLeg>
+    <hasMinWidthLeg rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >5</hasMinWidthLeg>
+  </LegCutter>
+  <TopCutter rdf:about="http://kbe.openode.io/table-kbe.owl#topCutter_1">
+    <hasMaxHeightTop rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >15</hasMaxHeightTop>
+    <hasMaxLengthTop rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >1000</hasMaxLengthTop>
+    <hasMaxWidthTop rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >1000</hasMaxWidthTop>
+    <hasMinHeightTop rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >5</hasMinHeightTop>
+    <hasMinLengthTop rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >100</hasMinLengthTop>
+    <hasMinWidthTop rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >100</hasMinWidthTop>
+    <hasMinLengthTop rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >80</hasMinLengthTop>
+  </TopCutter>
+</rdf:RDF>

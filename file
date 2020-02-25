@@ -1,0 +1,79 @@
+#! NX/KF 4.0
+DefClass: My_Cube (ug_base_part);
+    #Side parameter
+    (number parameter) cube_width: param1_value;
+    (number parameter) cube_length: param2_value;
+    (number parameter) cube_height: param3_value;
+    (number parameter) foot_height: <PARAM4>;
+    (number parameter) foot_side: <PARAM5>;
+    (number paramter) max_height: <PARAMmax1>;
+    (number paramter) max_length: <PARAMmax2>;
+    (number paramter) max_width: <PARAMmax3>;
+    (number paramter) min_height: <PARAMmin1>;
+    (number paramter) min_length: <PARAMmin2>;
+    (number paramter) min_width: <PARAMmin3>;
+    (number paramter) max_foot_height: <PARAMmax4>;
+    (number paramter) min_foot_height: <PARAMmin4>;
+
+(child) block1: 
+    {
+        class, ug_block;
+        length, cube_length:;
+        width, cube_width:;
+        height, cube_height:;
+	Origin, Point(0,0,0);
+	Direction, Vector(0,0,1);
+        color, 3;
+    };
+(child) foot1: 
+    {
+        class, ug_block;
+        length, foot_side:;
+        width, foot_side:;
+        height, foot_height:;
+        color, 3;
+	Origin, Point(0,0,-foot_height:);
+	Direction, Vector(0,0,1);
+	Operation, Unite;
+	Target, {block1:};
+    };
+
+(child) foot2: 
+     {
+        class, ug_block;
+        length, foot_side:;
+        width, foot_side:;
+        height, foot_height:;
+        color, 3;
+	Origin, Point(cube_length:-foot_side:,0,-foot_height:);
+	Direction, Vector(0,0,1);
+	Operation, Unite;
+	Target, {block1:};
+    };
+
+(child) foot3: 
+     {
+        class, ug_block;
+        length, foot_side:;
+        width, foot_side:;
+        height, foot_height:;
+        color, 3;
+	Origin, Point(0,cube_width:-foot_side:,-foot_height:);
+	Direction, Vector(0,0,1);
+	Operation, Unite;
+	Target, {block1:};
+    };
+
+(child) foot4: 
+     {
+        class, ug_block;
+        length, foot_side:;
+        width, foot_side:;
+        height, foot_height:;
+        color, 3;
+	Origin, Point(cube_length:-foot_side:,cube_width:-foot_side:,-foot_height:);
+	Direction, Vector(0,0,1);
+	Operation, Unite;
+	Target, {block1:};
+    };
+
